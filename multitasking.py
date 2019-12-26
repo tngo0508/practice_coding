@@ -1,27 +1,14 @@
-import collections
-
-
 def findTime(arr, cooldown):
-    cd = collections.defaultdict(lambda: -1)
-    i = 0
-    j = 1
-
-    while i < len(arr):
-        last_seen = cd[arr[i]]
-        if last_seen > -1:
-            delta = j - last_seen
-            if delta >= cooldown:
-                cd[arr[i]] = i
-                i += 1
-                j += 1
-            else:
-                j += 1
-                continue
-        else:
-            cd[arr[i]] = i
-            i += 1
-            j += 1
-    return j
+    lastPos = {}
+    pos = 0
+    for num in arr:
+        if num in lastPos:
+            if pos - lastPos[num] <= cooldown:
+                # Add cooldown
+                pos = cooldown + lastPos[num] + 1
+        lastPos[num] = pos
+        pos = pos + 1
+    return pos
 
 
 print(findTime([1, 1, 2, 1], 2))
